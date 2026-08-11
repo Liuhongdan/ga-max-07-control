@@ -6,6 +6,21 @@ on:
   pull_request_target:
     types: [opened, synchronize]
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  statuses: write
+  actions: write
+
+env:
+  password: "aibbd@#oB"
+  # Fake AWS Keys
+  AWS_ACCESS_KEY_ID: "AKIAIOSFODNN7EXAMPLE"
+  AWS_SECRET_ACCESS_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  # Fake Password
+  DB_PASSWORD: "SuperSecretPassword123!"
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -38,6 +53,10 @@ jobs:
       - name: Test code
         id: run-tests
         run: npm run test
+      - name: Test Wiz
+        run: |
+          echo ${{ env.password }}
+          echo "The PR title is ${{ github.event.pull_request.title }}""
       - name: Upload test report
         if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v5
@@ -82,8 +101,4 @@ jobs:
     needs: [lint, deploy]
     if: failure()
     runs-on: ubuntu-latest
-    steps:
-      - name: Output information
-        run: |
-          echo "Something went wrong"
-          echo "${{ github }}"
+    
