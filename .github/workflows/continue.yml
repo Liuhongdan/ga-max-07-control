@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: test-report
-          patoh: test.json
+          path: test.json
   build:
     needs: test
     runs-on: ubuntu-latest
