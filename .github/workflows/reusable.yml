@@ -1,5 +1,12 @@
 name: Reusable Deployment
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: artifact name to download
+        required: false
+        default: dist
+        type: string
 jobs:
     deploy:
       runs-on: ubuntu-latest
